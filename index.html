@@ -605,13 +605,18 @@
         async function saveVisitor(data) {
             try {
                 let visitors = [];
-                try {
-                    const stored = await window.storage.get('burger-visitors', true);
-                    if (stored && stored.value) visitors = JSON.parse(stored.value);
-                } catch (e) {}
                 
+                // Get existing visitors from localStorage
+                const stored = localStorage.getItem('burger-visitors');
+                if (stored) {
+                    visitors = JSON.parse(stored);
+                }
+                
+                // Add new visitor
                 visitors.push(data);
-                await window.storage.set('burger-visitors', JSON.stringify(visitors), true);
+                
+                // Save back to localStorage
+                localStorage.setItem('burger-visitors', JSON.stringify(visitors));
                 console.log('Visitor saved! Total:', visitors.length);
             } catch (error) {
                 console.error('Storage error:', error);
@@ -621,10 +626,12 @@
         async function loadVisitors() {
             try {
                 let visitors = [];
-                try {
-                    const stored = await window.storage.get('burger-visitors', true);
-                    if (stored && stored.value) visitors = JSON.parse(stored.value);
-                } catch (e) {}
+                
+                // Load from localStorage
+                const stored = localStorage.getItem('burger-visitors');
+                if (stored) {
+                    visitors = JSON.parse(stored);
+                }
                 
                 allVisitors = visitors;
                 displayVisitors();
