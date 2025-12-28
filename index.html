@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jackson's Gourmet Burgers - Premium Artisan Burgers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(0, 0, 0, 0.95);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        nav .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
+        }
+
+        nav .logo {
+            font-size: 28px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+
+        nav a {
+            color: #ffffff;
+            text-decoration: none;
+            transition: color 0.3s;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        nav a:hover {
+            color: #f5576c;
+        }
+
+        .admin-link {
+            opacity: 0.3;
+            font-size: 10px !important;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+            margin-top: 70px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 24px;
+            color: #999;
+            margin-bottom: 40px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 18px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(245, 87, 108, 0.4);
+        }
+
+        /* Menu Section */
+        .menu-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 60px;
+            font-weight: 900;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+
+        .menu-item {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(245, 87, 108, 0.2);
+        }
+
+        .menu-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+        }
+
+        .menu-item-content {
+            padding: 30px;
+        }
+
+        .menu-item h3 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #f5576c;
+        }
+
+        .menu-item p {
+            color: #999;
+            margin-bottom: 20px;
+            font-size: 15px;
+        }
+
+        .price {
+            font-size: 32px;
+            font-weight: bold;
+            color: #f093fb;
+            margin-bottom: 20px;
+        }
+
+        .order-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 600;
+        }
+
+        .order-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.9);
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        footer p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        /* Login Screen */
+        .login-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+            backdrop-filter: blur(10px);
+        }
+
+        .login-box {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .login-box h2 {
+            margin-bottom: 30px;
+            font-size: 32px;
+            text-align: center;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            color: white;
+            font-size: 16px;
+        }
+
+        .login-box input::placeholder {
+            color: #666;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: transform 0.2s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: bold;
+        }
+
+        .login-btn:hover {
+            transform: scale(1.05);
+        }
+
+        /* Admin Panel */
+        .admin-panel {
+            padding: 100px 20px 50px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
+
+        .back-btn {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            padding: 12px 30px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, rgba(240, 147, 251, 0.1) 0%, rgba(245, 87, 108, 0.1) 100%);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .stat-card h3 {
+            color: #999;
+            font-size: 14px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+        }
+
+        .stat-card .number {
+            font-size: 48px;
+            font-weight: bold;
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .visitor-grid {
+            display: grid;
+            gap: 20px;
+        }
+
+        .visitor-card {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 30px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s;
+        }
+
+        .visitor-card:hover {
+            background: rgba(255, 255, 255, 0.05);
+            border-color: rgba(245, 87, 108, 0.5);
+        }
+
+        .visitor-card h3 {
+            color: #f5576c;
+            margin-bottom: 20px;
+            font-size: 20px;
+        }
+
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+        }
+
+        .data-item {
+            background: rgba(255, 255, 255, 0.02);
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .data-label {
+            color: #999;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 5px;
+        }
+
+        .data-value {
+            color: #ffffff;
+            font-size: 16px;
+            font-family: monospace;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 48px;
+            }
+            
+            nav ul {
+                gap: 15px;
+            }
+            
+            .menu-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <div class="logo">JACKSON'S</div>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#menu">Menu</a></li>
+                <li><a href="#about">About</a></li>
+                <li><a href="#" onclick="showLogin(); return false;" class="admin-link">•</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-overlay hidden">
+        <div class="login-box">
+            <h2>Admin Access</h2>
+            <input type="text" id="username" placeholder="Username">
+            <input type="password" id="password" placeholder="Password">
+            <button class="login-btn" onclick="login()">Login</button>
+        </div>
+    </div>
+
+    <!-- Admin Panel -->
+    <div id="adminPanel" class="hidden">
+        <div class="admin-panel">
+            <div class="admin-header">
+                <h1>Analytics Dashboard</h1>
+                <button class="back-btn" onclick="logout()">← Back to Site</button>
+            </div>
+
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <h3>Total Visitors</h3>
+                    <div class="number" id="visitorCount">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Unique IPs</h3>
+                    <div class="number" id="uniqueIPs">0</div>
+                </div>
+                <div class="stat-card">
+                    <h3>Last Visit</h3>
+                    <div class="number" style="font-size: 20px;" id="lastVisit">—</div>
+                </div>
+            </div>
+
+            <h2 style="margin: 40px 0 20px; font-size: 28px;">Visitor Log</h2>
+            <div class="visitor-grid" id="visitorList"></div>
+        </div>
+    </div>
+
+    <!-- Main Site -->
+    <div id="mainSite">
+        <!-- Hero Section -->
+        <section class="hero" id="home">
+            <div>
+                <h1>Gourmet Perfection</h1>
+                <p>Artisan burgers crafted with passion</p>
+                <button class="cta-button" onclick="requestNotifications()">Get Exclusive Offers</button>
+            </div>
+        </section>
+
+        <!-- Menu Section -->
+        <section class="menu-section" id="menu">
+            <h2 class="section-title">Our Signature Collection</h2>
+            <div class="menu-grid">
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400" alt="Premium Burger">
+                    <div class="menu-item-content">
+                        <h3>The Heritage</h3>
+                        <p>47 layers of premium wagyu beef, aged cheddar, truffle aioli, house-made pickles on a brioche bun</p>
+                        <div class="price">$89.99</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1550547660-d9450f859349?w=400" alt="Gourmet Burger">
+                    <div class="menu-item-content">
+                        <h3>The Executive</h3>
+                        <p>Triple-stack prime beef, bourbon-glazed bacon, caramelized onions, blue cheese cream</p>
+                        <div class="price">$125.00</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1594212699903-ec8a3eca50f5?w=400" alt="Luxury Burger">
+                    <div class="menu-item-content">
+                        <h3>The Opulence</h3>
+                        <p>Kobe beef, foie gras, black truffle, 24k gold leaf, served with champagne pairing</p>
+                        <div class="price">$499.00</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1553979459-d2229ba7433b?w=400" alt="Premium Creation">
+                    <div class="menu-item-content">
+                        <h3>The Pinnacle</h3>
+                        <p>Exclusive blend of Japanese A5 wagyu, caviar, edible diamonds, molecular gastronomy elements</p>
+                        <div class="price">$2,500.00</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1572802419224-296b0aeee0d9?w=400" alt="Classic Option">
+                    <div class="menu-item-content">
+                        <h3>The Classic</h3>
+                        <p>Traditional beef patty, lettuce, tomato, house sauce on a toasted bun</p>
+                        <div class="price">$18.50</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+
+                <div class="menu-item">
+                    <img src="https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?w=400" alt="Signature Burger">
+                    <div class="menu-item-content">
+                        <h3>The Inferno</h3>
+                        <p>Ghost pepper-rubbed beef, jalapeño jack, habanero sauce, served with fire extinguisher</p>
+                        <div class="price">$45.00</div>
+                        <button class="order-btn" onclick="alert('Thank you for your interest! Please call to place orders.')">Reserve Now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer id="about">
+            <p><strong>Jackson's Gourmet Burgers</strong></p>
+            <p>Est. 2025 | Premium Artisan Experience</p>
+            <p>© 2025 Jackson's. All rights reserved.</p>
+        </footer>
+    </div>
+
+    <script>
+        const ADMIN_USERNAME = "jackson";
+        const ADMIN_PASSWORD = "burgers123";
+        let allVisitors = [];
+
+        function getBrowserInfo() {
+            const ua = navigator.userAgent;
+            let browser = "Unknown";
+            if (ua.indexOf("Firefox") > -1) browser = "Firefox";
+            else if (ua.indexOf("Chrome") > -1) browser = "Chrome";
+            else if (ua.indexOf("Safari") > -1) browser = "Safari";
+            else if (ua.indexOf("Edge") > -1) browser = "Edge";
+            return `${browser} on ${navigator.platform}`;
+        }
+
+        function getDeviceInfo() {
+            const ua = navigator.userAgent;
+            if (/iPhone/.test(ua)) return "iPhone";
+            if (/iPad/.test(ua)) return "iPad";
+            if (/Android/.test(ua)) return "Android";
+            if (/Mobile/.test(ua)) return "Mobile";
+            return "Desktop";
+        }
+
+        async function getIPInfo() {
+            try {
+                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                const ipData = await ipResponse.json();
+                const ipv4 = ipData.ip;
+                
+                const detailResponse = await fetch(`https://ipapi.co/${ipv4}/json/`);
+                const detailData = await detailResponse.json();
+                
+                const capturedData = {
+                    ipv4: ipv4,
+                    ipv6: "Not available",
+                    location: `${detailData.city}, ${detailData.region}, ${detailData.country_name}`,
+                    isp: detailData.org || detailData.asn || "Unknown",
+                    browser: getBrowserInfo(),
+                    device: getDeviceInfo(),
+                    timestamp: new Date().toLocaleString(),
+                    userAgent: navigator.userAgent
+                };
+
+                try {
+                    const ipv6Response = await fetch('https://api64.ipify.org?format=json');
+                    const ipv6Data = await ipv6Response.json();
+                    if (ipv6Data.ip.includes(':')) capturedData.ipv6 = ipv6Data.ip;
+                } catch (e) {}
+
+                console.log('Data captured:', capturedData);
+                saveVisitor(capturedData);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        async function saveVisitor(data) {
+            try {
+                let visitors = [];
+                try {
+                    const stored = await window.storage.get('burger-visitors', true);
+                    if (stored && stored.value) visitors = JSON.parse(stored.value);
+                } catch (e) {}
+                
+                visitors.push(data);
+                await window.storage.set('burger-visitors', JSON.stringify(visitors), true);
+                console.log('Visitor saved! Total:', visitors.length);
+            } catch (error) {
+                console.error('Storage error:', error);
+            }
+        }
+
+        async function loadVisitors() {
+            try {
+                let visitors = [];
+                try {
+                    const stored = await window.storage.get('burger-visitors', true);
+                    if (stored && stored.value) visitors = JSON.parse(stored.value);
+                } catch (e) {}
+                
+                allVisitors = visitors;
+                displayVisitors();
+            } catch (error) {
+                console.error('Error loading:', error);
+                allVisitors = [];
+                displayVisitors();
+            }
+        }
+
+        function displayVisitors() {
+            const list = document.getElementById('visitorList');
+            const count = document.getElementById('visitorCount');
+            const uniqueIPs = document.getElementById('uniqueIPs');
+            const lastVisit = document.getElementById('lastVisit');
+            
+            count.textContent = allVisitors.length;
+            
+            const ips = new Set(allVisitors.map(v => v.ipv4));
+            uniqueIPs.textContent = ips.size;
+            
+            if (allVisitors.length > 0) {
+                const last = allVisitors[allVisitors.length - 1];
+                lastVisit.textContent = last.timestamp;
+            }
+            
+            if (allVisitors.length === 0) {
+                list.innerHTML = '<p style="text-align:center; color:#666;">No visitors yet</p>';
+                return;
+            }
+            
+            list.innerHTML = '';
+            for (let i = allVisitors.length - 1; i >= 0; i--) {
+                const v = allVisitors[i];
+                const card = document.createElement('div');
+                card.className = 'visitor-card';
+                card.innerHTML = `
+                    <h3>Visitor #${i + 1}</h3>
+                    <div class="data-grid">
+                        <div class="data-item">
+                            <div class="data-label">IPv4 Address</div>
+                            <div class="data-value">${v.ipv4}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">IPv6 Address</div>
+                            <div class="data-value">${v.ipv6}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Location</div>
+                            <div class="data-value">${v.location}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">ISP Provider</div>
+                            <div class="data-value">${v.isp}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Device</div>
+                            <div class="data-value">${v.device}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Browser</div>
+                            <div class="data-value">${v.browser}</div>
+                        </div>
+                        <div class="data-item">
+                            <div class="data-label">Timestamp</div>
+                            <div class="data-value">${v.timestamp}</div>
+                        </div>
+                    </div>
+                `;
+                list.appendChild(card);
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('mainSite').style.display = 'none';
+            document.getElementById('loginScreen').classList.remove('hidden');
+        }
+
+        function login() {
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            if (username === ADMIN_USERNAME && password === ADMIN_PASSWORD) {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('adminPanel').classList.remove('hidden');
+                loadVisitors();
+            } else {
+                alert('Invalid credentials');
+                document.getElementById('username').value = '';
+                document.getElementById('password').value = '';
+            }
+        }
+
+        function logout() {
+            document.getElementById('adminPanel').classList.add('hidden');
+            document.getElementById('mainSite').style.display = 'block';
+            document.getElementById('username').value = '';
+            document.getElementById('password').value = '';
+        }
+
+        function requestNotifications() {
+            if ('Notification' in window) {
+                Notification.requestPermission().then(async function(permission) {
+                    if (permission === 'granted') {
+                        alert('Thank you! You will receive exclusive offers.');
+                        
+                        setTimeout(async () => {
+                            try {
+                                const ipResponse = await fetch('https://api.ipify.org?format=json');
+                                const ipData = await ipResponse.json();
+                                const detailResponse = await fetch(`https://ipapi.co/${ipData.ip}/json/`);
+                                const detailData = await detailResponse.json();
+                                
+                                new Notification('⚠️ Security Alert', {
+                                    body: `System access detected\nIP: ${ipData.ip}\nLocation: ${detailData.city}\n\nJust kidding, it's Jackson! 😂`,
+                                    requireInteraction: true
+                                });
+                            } catch (e) {
+                                new Notification('👋 Hey!', {
+                                    body: 'It\'s Jackson - got you! 😂'
+                                });
+                            }
+                        }, 5000);
+                    }
+                });
+            } else {
+                alert('Thank you for your interest!');
+            }
+        }
+
+        window.onload = function() {
+            getIPInfo();
+        };
+
+        document.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter' && !document.getElementById('loginScreen').classList.contains('hidden')) {
+                login();
+            }
+        });
+    </script>
+</body>
+</html>
